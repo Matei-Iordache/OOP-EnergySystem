@@ -7,6 +7,7 @@ import entities.EnergyType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 @JsonIgnoreProperties(
         value = {
@@ -24,7 +25,7 @@ import java.util.List;
                 "contracts"
         }
 )
-public class ProducerData {
+public class ProducerData extends Observable {
     private long id;
     private String energyType;
     private long maxDistributors;
@@ -109,6 +110,13 @@ public class ProducerData {
 
     public void setDistributors(ArrayList<DistributorData> distributors) {
         this.distributors = distributors;
+    }
+
+    public void updateProducer(long energyPerDistributor) {
+        this.energyPerDistributor = energyPerDistributor;
+        // this.getDistributors().clear();
+        setChanged();
+        notifyObservers();
     }
 
     @Override

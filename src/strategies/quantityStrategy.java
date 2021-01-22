@@ -24,7 +24,7 @@ public class quantityStrategy implements Strategy {
                 .thenComparing(ProducerData::getId))
                 .collect(Collectors.toList());
 
-        sorted.removeIf(producer -> distributor.getProducers().contains(producer));
+        // sorted.removeIf(producer -> distributor.getProducers().contains(producer));
         Commands.addProducersToDistributor(distributor,sorted);
     }
 }

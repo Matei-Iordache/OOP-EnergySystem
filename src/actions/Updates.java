@@ -1,8 +1,6 @@
 package actions;
 
-import fileio.ConsumerData;
-import fileio.DistributorData;
-import fileio.MonthlyUpdatesInputData;
+import fileio.*;
 
 import java.util.ArrayList;
 
@@ -53,6 +51,35 @@ public final class Updates {
 //      }
 //    }
 //  }
+
+  public static void updateDistributors(final int turnNumber,
+                                        final ArrayList<MonthlyUpdatesInputData> monthlyUpdates,
+                                        final ArrayList<DistributorData> distributors) {
+    ArrayList<DistributorChanges> distributorChanges = monthlyUpdates.get(turnNumber - 1).getDistributorChanges();
+    for (DistributorChanges distributorChange: distributorChanges) {
+      distributors.forEach(
+        distributor -> {
+          if (distributor.getId() == distributorChange.id) {
+            distributor.setInitialInfrastructureCost(distributorChange.infrastructureCost);
+          }
+        });
+    }
+  }
+
+  public static void updateProducers(final int turnNumber,
+                                     final ArrayList<MonthlyUpdatesInputData> monthlyUpdates,
+                                     final ArrayList<ProducerData> producers) {
+    ArrayList<ProducerChanges> producerChanges = monthlyUpdates.get(turnNumber - 1).getProducerChanges();
+    for (ProducerChanges producerChange: producerChanges) {
+      producers.forEach(
+              producer -> {
+                if (producer.getId() == producerChange.getId()) {
+                  producer.updateProducer(producerChange.getEnergyPerDistributor());
+                }
+              }
+      );
+    }
+  }
 
   /**
    * Deletes users from the contract list of their distributor if their contract expired

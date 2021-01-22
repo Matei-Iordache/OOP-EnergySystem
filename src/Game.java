@@ -34,6 +34,7 @@ public class Game {
     for (int i = 0; i <= numberTurns; i++) {
       if (i > 0) {
         Updates.updateConsumers(i, monthlyUpdates, consumers);
+        Updates.updateDistributors(i, monthlyUpdates, distributors);
       }
 
       if (i == 0) {
@@ -56,13 +57,24 @@ public class Game {
       Updates.updateConsumerContractTime(consumers);
 
       if (i != 0) {
+        for (ProducerData producer: producers) {
+          for (DistributorData distributor: producer.getDistributors()) {
+            producer.addObserver(distributor);
+          }
+        }
+        Updates.updateProducers(i, monthlyUpdates, producers);
         Commands.chooseProducers(distributors, producers);
         Commands.calculateProductionCost(distributors,producers);
         Commands.setMonthlyStats(producers, i);
       }
 
+//      System.out.println(i);
 //      System.out.println(consumers);
+//        distributors.forEach(distributor -> {
+//          System.out.println(distributor.getInitialInfrastructureCost());
+//        });
 //      System.out.println(distributors);
+//      System.out.println();
 //      System.out.println(producers);
 //      System.out.println("-----------------------------------------------\n\n");
     }

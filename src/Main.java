@@ -22,8 +22,8 @@ public final class Main {
   public static void main(final String[] args) throws Exception {
 
     InputOutputFactory factory = InputOutputFactory.getInstance();
-//    factory.setInputPath("checker/resources/in/basic_5.json");
-//    factory.setOutputPath("checker/resources/out/basic_5.json");
+//    factory.setInputPath("checker/resources/in/complex_4.json");
+//    factory.setOutputPath("checker/resources/out/complex_4.json");
     factory.setInputPath(args[0]);
     factory.setOutputPath(args[1]);
 

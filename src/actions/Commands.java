@@ -11,6 +11,7 @@ import strategies.quantityStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /** Class with different helper methods */
 public final class Commands {
@@ -184,6 +185,14 @@ public final class Commands {
   public static void addProducersToDistributor(final DistributorData distributor,
                                                  final ArrayList<ProducerData> sortedProducers) {
 
+    if (distributor.isChange()) {
+          for (ProducerData producer: distributor.getProducers()) {
+            producer.getDistributors().remove(distributor);
+            //producer.deleteObserver(distributor);
+          }
+        distributor.getProducers().clear();
+        distributor.setChange(false);
+    }
     long energyNeeded = distributor.getEnergyNeededKW();
     int i = 0;
     if (distributor.getProducers().size() > 0) {
@@ -191,8 +200,13 @@ public final class Commands {
           energyNeeded -= producer.getEnergyPerDistributor();
       }
     }
+
     if (sortedProducers.size() > 0) {
       while (energyNeeded > 0) {
+        if (sortedProducers.get(i).getDistributors().size() == sortedProducers.get(i).getMaxDistributors()) {
+          i++;
+          continue;
+        }
         distributor.getProducers().add(sortedProducers.get(i));
         sortedProducers.get(i).getDistributors().add(distributor);
         energyNeeded -= sortedProducers.get(i).getEnergyPerDistributor();
@@ -218,7 +232,8 @@ public final class Commands {
       for (DistributorData disributor: producer.getDistributors()) {
         ids.add(disributor.getId());
       }
-      producer.getMonthlyStats().add(new MonthlyStats(monthNumber, new ArrayList<>(ids)));
+      List<Long> sorted = ids.stream().sorted().collect(Collectors.toList());
+      producer.getMonthlyStats().add(new MonthlyStats(monthNumber, new ArrayList<>(sorted)));
       ids.clear();
     }
   }

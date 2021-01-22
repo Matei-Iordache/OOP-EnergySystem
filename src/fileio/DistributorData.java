@@ -1,10 +1,11 @@
 package fileio;
 
+import actions.Commands;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jdk.swing.interop.SwingInterOpUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /** Store the data of any distributor in the game */
 @JsonIgnoreProperties(
@@ -27,7 +28,7 @@ import java.util.List;
       "contracts"
    }
 )
-public final class DistributorData {
+public final class DistributorData implements Observer {
   private long id;
   private final long contractLength;
   private long budget;
@@ -43,6 +44,8 @@ public final class DistributorData {
 
   private List<ProducerData> producers = new ArrayList<>();
   private long costContract;
+
+  private boolean change = false;
 
   public DistributorData(
           final long id,
@@ -147,6 +150,14 @@ public final class DistributorData {
     this.energyNeededKW = energyNeededKW;
   }
 
+  public boolean isChange() {
+    return change;
+  }
+
+  public void setChange(boolean change) {
+    this.change = change;
+  }
+
   @Override
   public String toString() {
     return "DistributorData{" +
@@ -156,7 +167,7 @@ public final class DistributorData {
             ", initialInfrastructureCost=" + initialInfrastructureCost +
             ", initialProductionCost=" + initialProductionCost +
             ", energyNeededKW=" + energyNeededKW +
-            ", producerStrategy='" + producerStrategy + '\'' +
+            ", producerStrategy='" + producerStrategy +
             ", isBankrupt=" + isBankrupt +
             ", profit=" + profit +
             ", contracts=" + contracts +
@@ -164,4 +175,23 @@ public final class DistributorData {
             ", costContract=" + costContract +
             '}';
   }
+
+  // arg - list of distributors of a producer
+  // o - producer
+  @Override
+  public void update(Observable o, Object arg) {
+//    List<DistributorData> copy = new ArrayList<>((ArrayList<DistributorData>) arg);
+//    for (DistributorData distributor: copy) {
+//      distributor.getProducers().clear();
+//      ((ProducerData) o).getDistributors().remove(distributor);
+//      o.deleteObserver(distributor);
+//    for (ProducerData producer: getProducers()) {
+//        producer.getDistributors().remove(this);
+//    }
+    if (!change) {
+      change = true;
+    }
+    //this.getProducers().clear();
+    o.deleteObserver(this);
+    }
 }
