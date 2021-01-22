@@ -1,17 +1,18 @@
 package actions;
 
+import entities.EnergyType;
 import fileio.ConsumerData;
 import fileio.DistributorData;
 import fileio.MonthlyStats;
 import fileio.ProducerData;
 import strategies.Context;
-import strategies.greenStrategy;
-import strategies.priceStrategy;
-import strategies.quantityStrategy;
+import strategies.GreenStrategy;
+import strategies.PriceStrategy;
+import strategies.QuantityStrategy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Class with different helper methods */
 public final class Commands {
@@ -110,7 +111,7 @@ public final class Commands {
 
         /*
         if a consumer has a negative budget after applying the bill it means he cannot pay his bill.
-        Add his monthly income and
+        Add his monthly income and set him as almost bankrupt
         */
         if (consumer.getBudget() < 0) {
           consumer.setBudget(budget + monthlyIncome);
@@ -168,27 +169,37 @@ public final class Commands {
     }
   }
 
+  /**
+   * Chose the producers a distributor wants to subscribe to
+   * based on the strategy the distributor has
+   * @param distributors list
+   * @param producers list
+   */
   public static void chooseProducers(final ArrayList<DistributorData> distributors,
                                      final ArrayList<ProducerData> producers) {
     Context context;
     for (DistributorData distributor: distributors) {
         switch (distributor.getProducerStrategy()) {
-          case "GREEN" -> context = new Context(new greenStrategy());
-          case "PRICE" -> context = new Context(new priceStrategy());
-          case "QUANTITY" -> context = new Context(new quantityStrategy());
+          case "GREEN" -> context = new Context(new GreenStrategy());
+          case "PRICE" -> context = new Context(new PriceStrategy());
+          case "QUANTITY" -> context = new Context(new QuantityStrategy());
           default -> throw new IllegalStateException("Unexpected value: " + distributor.getProducerStrategy());
         }
         context.execute(distributor, producers);
     }
   }
 
+  /**
+   * Subscribe the distributor to producers until it has enough energy.
+   * @param distributor list
+   * @param sortedProducers list
+   */
   public static void addProducersToDistributor(final DistributorData distributor,
-                                                 final ArrayList<ProducerData> sortedProducers) {
-
+                                               final ArrayList<ProducerData> sortedProducers) {
+    // do this for every distributor that is affected by a producer's change
     if (distributor.isChange()) {
           for (ProducerData producer: distributor.getProducers()) {
             producer.getDistributors().remove(distributor);
-            //producer.deleteObserver(distributor);
           }
         distributor.getProducers().clear();
         distributor.setChange(false);
@@ -201,22 +212,26 @@ public final class Commands {
       }
     }
 
-    if (sortedProducers.size() > 0) {
       while (energyNeeded > 0) {
         if (sortedProducers.get(i).getDistributors().size() == sortedProducers.get(i).getMaxDistributors()) {
           i++;
           continue;
         }
+        // add the producer to the distributor's list
         distributor.getProducers().add(sortedProducers.get(i));
+        // add the distributor to the producer's list
         sortedProducers.get(i).getDistributors().add(distributor);
+
         energyNeeded -= sortedProducers.get(i).getEnergyPerDistributor();
         i++;
       }
-    }
   }
 
-  public static void calculateProductionCost(ArrayList<DistributorData> distributors,
-                                             ArrayList<ProducerData> producers) {
+  /**
+   * Calculate the production cost of the distributors
+   * @param distributors list
+   */
+  public static void calculateProductionCost(final ArrayList<DistributorData> distributors) {
     for (DistributorData distributor: distributors) {
       double cost = 0;
       for (ProducerData producer: distributor.getProducers()) {
@@ -226,15 +241,32 @@ public final class Commands {
     }
   }
 
-  public static void setMonthlyStats(ArrayList<ProducerData> producers, int monthNumber) {
+  /**
+   * Set the monthly stats of the producers
+   * Add the month number and a list of the distributors subscribed to a producer
+   * @param producers list
+   * @param monthNumber list
+   */
+  public static void setMonthlyStats(final ArrayList<ProducerData> producers,
+                                     final int monthNumber) {
     List<Long> ids = new ArrayList<>();
     for (ProducerData producer: producers) {
-      for (DistributorData disributor: producer.getDistributors()) {
-        ids.add(disributor.getId());
+      for (DistributorData distributor: producer.getDistributors()) {
+        ids.add(distributor.getId());
       }
-      List<Long> sorted = ids.stream().sorted().collect(Collectors.toList());
-      producer.getMonthlyStats().add(new MonthlyStats(monthNumber, new ArrayList<>(sorted)));
+      Collections.sort(ids);
+      producer.getMonthlyStats().add(new MonthlyStats(monthNumber, new ArrayList<>(ids)));
       ids.clear();
+    }
+  }
+
+  /**
+   * Set the Renewable parameter of a producer to true if he has renewable energy
+   * @param producers list
+   */
+  public static void setRenewableProducers(ArrayList<ProducerData> producers) {
+    for (ProducerData producer: producers) {
+      producer.setRenewable(EnergyType.valueOf(producer.getEnergyType()).isRenewable());
     }
   }
 }

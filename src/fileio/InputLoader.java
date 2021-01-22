@@ -76,11 +76,11 @@ public final class InputLoader implements InputOutput {
         for (Object jsonProducer : jsonProducers) {
           producers.add(
                   new ProducerData(
-                          (long) ((JSONObject) jsonProducer).get(Constants.ID),
-                          (String) ((JSONObject) jsonProducer).get(Constants.ENERGY_TYPE),
-                          (long) ((JSONObject) jsonProducer).get(Constants.MAX_DISTRIBUTORS),
-                          (Double) ((JSONObject) jsonProducer).get(Constants.PRICE_KW),
-                          (long) ((JSONObject) jsonProducer).get(Constants.ENERGY_PER_DISTRIBUTOR)));
+                      (long) ((JSONObject) jsonProducer).get(Constants.ID),
+                      (String) ((JSONObject) jsonProducer).get(Constants.ENERGY_TYPE),
+                      (long) ((JSONObject) jsonProducer).get(Constants.MAX_DISTRIBUTORS),
+                      (Double) ((JSONObject) jsonProducer).get(Constants.PRICE_KW),
+                      (long) ((JSONObject) jsonProducer).get(Constants.ENERGY_PER_DISTRIBUTOR)));
         }
       }
 
@@ -110,9 +110,9 @@ public final class InputLoader implements InputOutput {
           if (jsonDistributorChanges != null) {
             for (Object jsonDistributorChange : jsonDistributorChanges) {
               distributorChanges.add(
-                      new DistributorChanges(
-                          (long) ((JSONObject) jsonDistributorChange).get(Constants.ID),
-                          (long) ((JSONObject) jsonDistributorChange).get(Constants.INFRASTRUCTURE_COST)));
+                new DistributorChanges(
+                  (long) ((JSONObject) jsonDistributorChange).get(Constants.ID),
+                  (long) ((JSONObject) jsonDistributorChange).get(Constants.INFRASTRUCTURE_COST)));
             }
           }
 
@@ -124,13 +124,15 @@ public final class InputLoader implements InputOutput {
           if (jsonProducerChanges != null) {
             for (Object jsonDistributorChange : jsonProducerChanges) {
               producerChanges.add(
-                      new ProducerChanges(
-                              (long) ((JSONObject) jsonDistributorChange).get(Constants.ID),
-                              (long) ((JSONObject) jsonDistributorChange).get(Constants.ENERGY_PER_DISTRIBUTOR)));
+                new ProducerChanges(
+                  (long) ((JSONObject) jsonDistributorChange).get(Constants.ID),
+                  (long) ((JSONObject) jsonDistributorChange).get(Constants.ENERGY_PER_DISTRIBUTOR)));
             }
           }
 
-          monthlyUpdates.add(new MonthlyUpdatesInputData(newConsumers, distributorChanges, producerChanges));
+          monthlyUpdates.add(new MonthlyUpdatesInputData(newConsumers,
+                                                         distributorChanges,
+                                                         producerChanges));
         }
       }
 

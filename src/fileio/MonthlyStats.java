@@ -2,11 +2,12 @@ package fileio;
 
 import java.util.List;
 
-public class MonthlyStats {
+public final class MonthlyStats {
     private int month;
     private final List<Long> distributorsIds;
 
-    public MonthlyStats(int month, List<Long> distributorsIds) {
+    public MonthlyStats(final int month,
+                        final List<Long> distributorsIds) {
         this.month = month;
         this.distributorsIds = distributorsIds;
     }
@@ -15,7 +16,7 @@ public class MonthlyStats {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(final int month) {
         this.month = month;
     }
 
@@ -25,9 +26,9 @@ public class MonthlyStats {
 
     @Override
     public String toString() {
-        return "MonthlyStats{" +
-                "month=" + month +
-                ", distributorsIds=" + distributorsIds +
-                '}';
+        return "MonthlyStats{"
+                + "month=" + month
+                + ", distributorsIds=" + distributorsIds
+                + '}';
     }
 }

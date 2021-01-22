@@ -1,10 +1,14 @@
 package fileio;
 
-public class DistributorChanges {
-    public long id;
-    public long infrastructureCost;
+/**
+ * Stores the distributor changes in a month
+ */
+public final class DistributorChanges {
+    private long id;
+    private long infrastructureCost;
 
-    public DistributorChanges(long id, long infrastructureCost) {
+    public DistributorChanges(final long id,
+                              final long infrastructureCost) {
         this.id = id;
         this.infrastructureCost = infrastructureCost;
     }
@@ -13,7 +17,7 @@ public class DistributorChanges {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -21,15 +25,15 @@ public class DistributorChanges {
         return infrastructureCost;
     }
 
-    public void setInfrastructureCost(long infrastructureCost) {
+    public void setInfrastructureCost(final long infrastructureCost) {
         this.infrastructureCost = infrastructureCost;
     }
 
     @Override
     public String toString() {
-        return "DistributorChanges{" +
-                "id=" + id +
-                ", infrastructureCost=" + infrastructureCost +
-                '}';
+        return "DistributorChanges{"
+                + "id=" + id
+                + ", infrastructureCost=" + infrastructureCost
+                + '}';
     }
 }

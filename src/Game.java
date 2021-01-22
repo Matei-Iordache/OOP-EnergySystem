@@ -38,8 +38,9 @@ public class Game {
       }
 
       if (i == 0) {
+        Commands.setRenewableProducers(producers);
         Commands.chooseProducers(distributors, producers);
-        Commands.calculateProductionCost(distributors, producers);
+        Commands.calculateProductionCost(distributors);
       }
 
       Commands.calculateProfit(distributors);
@@ -64,19 +65,9 @@ public class Game {
         }
         Updates.updateProducers(i, monthlyUpdates, producers);
         Commands.chooseProducers(distributors, producers);
-        Commands.calculateProductionCost(distributors,producers);
+        Commands.calculateProductionCost(distributors);
         Commands.setMonthlyStats(producers, i);
       }
-
-//      System.out.println(i);
-//      System.out.println(consumers);
-//        distributors.forEach(distributor -> {
-//          System.out.println(distributor.getInitialInfrastructureCost());
-//        });
-//      System.out.println(distributors);
-//      System.out.println();
-//      System.out.println(producers);
-//      System.out.println("-----------------------------------------------\n\n");
     }
   }
 }

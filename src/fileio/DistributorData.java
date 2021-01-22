@@ -1,33 +1,11 @@
 package fileio;
 
-import actions.Commands;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jdk.swing.interop.SwingInterOpUtils;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 /** Store the data of any distributor in the game */
-@JsonIgnoreProperties(
-    value = {
-      "contractLength",
-      "initialInfrastructureCost",
-      "initialProductionCost",
-      "profit",
-      "costContract",
-      "producers"
-    })
-@JsonPropertyOrder(
-   value = {
-      "id",
-      "energyNeededKW",
-      "contractCost",
-      "budget",
-      "producerStrategy",
-      "isBankrupt",
-      "contracts"
-   }
-)
 public final class DistributorData implements Observer {
   private long id;
   private final long contractLength;
@@ -130,7 +108,7 @@ public final class DistributorData implements Observer {
     return producers;
   }
 
-  public void setProducers(List<ProducerData> producers) {
+  public void setProducers(final List<ProducerData> producers) {
     this.producers = producers;
   }
 
@@ -142,11 +120,11 @@ public final class DistributorData implements Observer {
     return producerStrategy;
   }
 
-  public void setProducerStrategy(String producerStrategy) {
+  public void setProducerStrategy(final String producerStrategy) {
     this.producerStrategy = producerStrategy;
   }
 
-  public void setEnergyNeededKW(long energyNeededKW) {
+  public void setEnergyNeededKW(final long energyNeededKW) {
     this.energyNeededKW = energyNeededKW;
   }
 
@@ -154,44 +132,36 @@ public final class DistributorData implements Observer {
     return change;
   }
 
-  public void setChange(boolean change) {
+  public void setChange(final boolean change) {
     this.change = change;
   }
 
   @Override
   public String toString() {
-    return "DistributorData{" +
-            "id=" + id +
-            ", contractLength=" + contractLength +
-            ", budget=" + budget +
-            ", initialInfrastructureCost=" + initialInfrastructureCost +
-            ", initialProductionCost=" + initialProductionCost +
-            ", energyNeededKW=" + energyNeededKW +
-            ", producerStrategy='" + producerStrategy +
-            ", isBankrupt=" + isBankrupt +
-            ", profit=" + profit +
-            ", contracts=" + contracts +
-            ", producers=" + producers +
-            ", costContract=" + costContract +
-            '}';
+    return "DistributorData{"
+            + "id=" + id
+            + ", contractLength=" + contractLength
+            + ", budget=" + budget
+            + ", initialInfrastructureCost=" + initialInfrastructureCost
+            + ", initialProductionCost=" + initialProductionCost
+            + ", energyNeededKW=" + energyNeededKW
+            + ", producerStrategy='" + producerStrategy
+            + ", isBankrupt=" + isBankrupt
+            + ", profit=" + profit
+            + ", contracts=" + contracts
+            + ", producers=" + producers
+            + ", costContract=" + costContract
+            + '}';
   }
 
-  // arg - list of distributors of a producer
-  // o - producer
+  /**
+   * Update function for the Observer Pattern
+   * @param o producer
+   * @param arg nothing
+   */
   @Override
-  public void update(Observable o, Object arg) {
-//    List<DistributorData> copy = new ArrayList<>((ArrayList<DistributorData>) arg);
-//    for (DistributorData distributor: copy) {
-//      distributor.getProducers().clear();
-//      ((ProducerData) o).getDistributors().remove(distributor);
-//      o.deleteObserver(distributor);
-//    for (ProducerData producer: getProducers()) {
-//        producer.getDistributors().remove(this);
-//    }
-    if (!change) {
+  public void update(final Observable o, final Object arg) {
       change = true;
-    }
-    //this.getProducers().clear();
-    o.deleteObserver(this);
-    }
+      o.deleteObserver(this);
+  }
 }

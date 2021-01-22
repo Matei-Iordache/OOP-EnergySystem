@@ -2,7 +2,7 @@ package fileio;
 
 import java.util.ArrayList;
 
-/** Put the monthly updades from the input loader here */
+/** Put the monthly updates from the input loader here */
 public final class MonthlyUpdatesInputData {
 
   private final ArrayList<ConsumerData> newConsumers;
@@ -32,10 +32,10 @@ public final class MonthlyUpdatesInputData {
 
   @Override
   public String toString() {
-    return "MonthlyUpdatesInputData{" +
-            "newConsumers=" + newConsumers +
-            ", distributorChanges=" + distributorChanges +
-            ", producerChanges=" + producerChanges +
-            '}' + "\n";
+    return "MonthlyUpdatesInputData{"
+            + "newConsumers=" + newConsumers
+            + ", distributorChanges=" + distributorChanges
+            + ", producerChanges=" + producerChanges
+            + '}' + "\n";
   }
 }

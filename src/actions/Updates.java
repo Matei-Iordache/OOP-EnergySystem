@@ -27,31 +27,13 @@ public final class Updates {
     consumers.addAll(newConsumer);
   }
 
-//  /**
-//   * Updates the cost changes of distributors if there are any cost changes. A cost change reffers
-//   * to a price change in productionCost or in InfrastructureCost
-//   *
-//   * @param turnNumber of current turn
-//   * @param monthlyUpdates list of monthly updates
-//   * @param distributors list of distributors
-//   */
-//  public static void updateCostChanges(
-//      final int turnNumber,
-//      final ArrayList<MonthlyUpdatesInputData> monthlyUpdates,
-//      final ArrayList<DistributorData> distributors) {
-//
-//    ArrayList<CostsChangesInputData> costChanges =
-//        monthlyUpdates.get(turnNumber - 1).getCostsChanges();
-//    for (CostsChangesInputData costChange : costChanges) {
-//      for (DistributorData distributor : distributors) {
-//        if (distributor.getId() == costChange.getId()) {
-//          distributor.setInitialInfrastructureCost(costChange.getInfrastructureCost());
-//          distributor.setInitialProductionCost(costChange.getProductionCost());
-//        }
-//      }
-//    }
-//  }
-
+  /**
+   * Updates the required distributors if there are any changes
+   *
+   * @param turnNumber of current turn
+   * @param monthlyUpdates list of monthly updates
+   * @param distributors list of distributors
+   */
   public static void updateDistributors(final int turnNumber,
                                         final ArrayList<MonthlyUpdatesInputData> monthlyUpdates,
                                         final ArrayList<DistributorData> distributors) {
@@ -59,13 +41,20 @@ public final class Updates {
     for (DistributorChanges distributorChange: distributorChanges) {
       distributors.forEach(
         distributor -> {
-          if (distributor.getId() == distributorChange.id) {
-            distributor.setInitialInfrastructureCost(distributorChange.infrastructureCost);
+          if (distributor.getId() == distributorChange.getId()) {
+            distributor.setInitialInfrastructureCost(distributorChange.getInfrastructureCost());
           }
         });
     }
   }
 
+  /**
+   * Updates the required producers if there are any changes
+   *
+   * @param turnNumber of current turn
+   * @param monthlyUpdates list of monthly updates
+   * @param producers list of producers
+   */
   public static void updateProducers(final int turnNumber,
                                      final ArrayList<MonthlyUpdatesInputData> monthlyUpdates,
                                      final ArrayList<ProducerData> producers) {

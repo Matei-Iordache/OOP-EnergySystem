@@ -1,31 +1,11 @@
 package fileio;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonRootName;
-import entities.EnergyType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-@JsonIgnoreProperties(
-        value = {
-                "renewable",
-                "distributors"
-        })
-@JsonPropertyOrder(
-        value = {
-                "id",
-                "maxDistributors",
-                "priceKW",
-                "energyType",
-                "energyPerDistributor",
-                "isBankrupt",
-                "contracts"
-        }
-)
-public class ProducerData extends Observable {
+
+public final class ProducerData extends Observable {
     private long id;
     private String energyType;
     private long maxDistributors;
@@ -35,8 +15,8 @@ public class ProducerData extends Observable {
     private List<MonthlyStats> monthlyStats = new ArrayList<>();
     private ArrayList<DistributorData> distributors = new ArrayList<>();
 
-    public ProducerData
-            (final long id,
+    public ProducerData(
+             final long id,
              final String energyType,
              final long maxDistributors,
              final Double priceKW,
@@ -52,7 +32,7 @@ public class ProducerData extends Observable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(final long id) {
         this.id = id;
     }
 
@@ -60,7 +40,7 @@ public class ProducerData extends Observable {
         return energyType;
     }
 
-    public void setEnergyType(String energyType) {
+    public void setEnergyType(final String energyType) {
         this.energyType = energyType;
     }
 
@@ -68,7 +48,7 @@ public class ProducerData extends Observable {
         return maxDistributors;
     }
 
-    public void setMaxDistributors(long maxDistributors) {
+    public void setMaxDistributors(final long maxDistributors) {
         this.maxDistributors = maxDistributors;
     }
 
@@ -84,7 +64,7 @@ public class ProducerData extends Observable {
         return energyPerDistributor;
     }
 
-    public void setEnergyPerDistributor(long energyPerDistributor) {
+    public void setEnergyPerDistributor(final long energyPerDistributor) {
         this.energyPerDistributor = energyPerDistributor;
     }
 
@@ -92,7 +72,7 @@ public class ProducerData extends Observable {
         return renewable;
     }
 
-    public void setRenewable(boolean renewable) {
+    public void setRenewable(final boolean renewable) {
         this.renewable = renewable;
     }
 
@@ -100,7 +80,7 @@ public class ProducerData extends Observable {
         return monthlyStats;
     }
 
-    public void setMonthlyStats(List<MonthlyStats> monthlyStats) {
+    public void setMonthlyStats(final List<MonthlyStats> monthlyStats) {
         this.monthlyStats = monthlyStats;
     }
 
@@ -108,27 +88,30 @@ public class ProducerData extends Observable {
         return distributors;
     }
 
-    public void setDistributors(ArrayList<DistributorData> distributors) {
+    public void setDistributors(final ArrayList<DistributorData> distributors) {
         this.distributors = distributors;
     }
 
+    /**
+     * Update the producer and notify his observers
+     * @param energyPerDistributor energyPerDistributor
+     */
     public void updateProducer(long energyPerDistributor) {
         this.energyPerDistributor = energyPerDistributor;
-        // this.getDistributors().clear();
         setChanged();
         notifyObservers();
     }
 
     @Override
     public String toString() {
-        return "ProducerData{" +
-                "id=" + id +
-                ", energyType='" + energyType + '\'' +
-                ", maxDistributors=" + maxDistributors +
-                ", priceKW=" + priceKW +
-                ", energyPerDistributor=" + energyPerDistributor +
-                ", renewable=" + renewable +
-                ", monthlyStats=" + monthlyStats +
-                '}';
+        return "ProducerData{"
+                + "id=" + id
+                + ", energyType='" + energyType + '\''
+                + ", maxDistributors=" + maxDistributors
+                + ", priceKW=" + priceKW
+                + ", energyPerDistributor=" + energyPerDistributor
+                + ", renewable=" + renewable
+                + ", monthlyStats=" + monthlyStats
+                + '}';
     }
 }

@@ -1,10 +1,14 @@
 package fileio;
 
-public class ProducerChanges {
+/**
+ * Stores the producer changes in a month
+ */
+public final class ProducerChanges {
     private long id;
     private long energyPerDistributor;
 
-    public ProducerChanges(long id, long energyPerDistributor) {
+    public ProducerChanges(final long id,
+                           final long energyPerDistributor) {
         this.id = id;
         this.energyPerDistributor = energyPerDistributor;
     }
@@ -27,9 +31,9 @@ public class ProducerChanges {
 
     @Override
     public String toString() {
-        return "ProducerChanges{" +
-                "id=" + id +
-                ", energyPerDistributor=" + energyPerDistributor +
-                '}';
+        return "ProducerChanges{"
+                + "id=" + id
+                + ", energyPerDistributor=" + energyPerDistributor
+                + '}';
     }
 }

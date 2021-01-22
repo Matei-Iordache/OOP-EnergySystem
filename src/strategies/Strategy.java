@@ -5,7 +5,9 @@ import fileio.ProducerData;
 
 import java.util.ArrayList;
 
+/**
+ *  Core of the strategy design pattern
+ */
 public interface Strategy {
-    public void chooseProducer(final DistributorData distributor,
-                              final ArrayList<ProducerData> producers);
+    void chooseProducer(DistributorData distributor, ArrayList<ProducerData> producers);
 }
