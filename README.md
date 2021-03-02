@@ -6,16 +6,19 @@ OOP-EnergySystem
 ---
 * Time spent on the project: ~1 week
 ---
+![Language used](https://img.shields.io/badge/Language-Java-brightgreen)
+![Technologies used](https://img.shields.io/badge/Technologies-Json-blue)
+![Tests passed](https://img.shields.io/badge/tests-20%20passed%2C%200%20failed-brightgreen)
 
 ## Table of contents
 
-* [Project description](#project-description)
+  * [Project description](#project-description)
   * [How to run the program](#how-to-run-the-program)
   * [Project Structure](#project-structure)
   * [Simulation step by step guide](#simulation-step-by-step-guide)
   * [OOP DESIGN](#oop-design)
     + [Factory uses](#factory-uses)
-  * [Singleton uses](#singleton-uses)
+    * [Singleton uses](#singleton-uses)
     + [Observer uses](#observer-uses)
     + [Strategy uses](#strategy-uses)
   * [Java 8 features](#java-8-features)
@@ -45,7 +48,7 @@ Step2.
 
     * checker folder - checker files
 
-    *entities folder - contains an enum with all the energyTypes of a producer
+    * entities folder - contains an enum with all the energyTypes of a producer
         * EnergyType - enum with all the energyTypes of a producer
 
     * fileio folder - contains classes that will store all the data extracted
@@ -92,7 +95,7 @@ Step2.
 
         * Strategy - Interface for the Stragegy Design Pattern
 
-    * utils folder -
+    * utils folder - Constants
 
         * Constants - Different constants used throughout the program
 
@@ -126,7 +129,7 @@ and notify the subscribed distributors.
 8. Distributors calculate their new production cost.
 9. Set the monthly stats of producers at the end of the month.
 
-================================================================================
+---
 ## OOP DESIGN
 Throughout the project I have used different oop concepts and design patterns
 * Patterns used:
